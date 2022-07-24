@@ -1,0 +1,154 @@
+<html>
+
+<head>
+    <title>Social Embed</title>
+    <meta charset="UTF-8" />
+    <style type="text/css">
+    img {
+        position: relative;
+        background: #F1F1FA;
+        width: 400px;
+        height: 300px;
+        display: block;
+        margin: 10px auto;
+        border: 0;
+    }
+
+    /*picture img:before {
+        background-image: url(instgrm_03.png);
+    }
+
+    picture img:before {
+        content: ' ';
+        display: block;
+        position: absolute;
+        top: -10px;
+        left: 0;
+        height: calc(100% + 10px);
+        width: 100%;
+        background-color: rgb(230, 230, 230);
+        border: 2px dotted rgb(200, 200, 200);
+        border-radius: 5px;
+    }
+
+    picture img:after {
+        content: '\f127'' Broken Image of attr(alt)';
+        display: block;
+        font-size: 16px;
+        font-style: normal;
+        font-family: SANS-SERIF;
+        color: rgb(100, 100, 100);
+        position: absolute;
+        top: 5px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+    }*/
+    </style>
+</head>
+
+<body>
+    <img src="https://ik.imagekit.io/demo/img/image1.jpeg?tr=w-400,h-300" />
+    <img src="https://ik.imagekit.io/demo/img/image2.jpeg?tr=w-400,h-300" />
+    <img src="https://ik.imagekit.io/demo/img/image3.jpg?tr=w-400,h-300" />
+    <img src="https://ik.imagekit.io/demo/img/image4.jpeg?tr=w-400,h-300" />
+    <img src="https://ik.imagekit.io/demo/img/image5.jpeg?tr=w-400,h-300" />
+    <img src="https://ik.imagekit.io/demo/img/image6.jpeg?tr=w-400,h-300" />
+    <img src="https://ik.imagekit.io/demo/img/image7.jpeg?tr=w-400,h-300" />
+    <img src="https://ik.imagekit.io/demo/img/image8.jpeg?tr=w-400,h-300" />
+    <!-- <img src="https://ik.imagekit.io/demo/img/image9.jpeg?tr=w-400,h-300" />
+<img src="https://ik.imagekit.io/demo/img/image10.jpeg?tr=w-400,h-300" /> -->
+    <picture class="lazyImage">
+        <source data-srcset="sample_640×426.jpeg" media="(max-width:768px)">
+        <source data-srcset="https://ik.imagekit.io/demo/img/image9.jpeg?tr=w-400,h-300" media="(max-width:1440px)">
+        <source data-srcset="https://ik.imagekit.io/demo/img/image10.jpeg?tr=w-400,h-300" media="(max-width:2440px)">
+        <img src="instgrm_03.png" alt="Placeholder Image">
+    </picture>
+    <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        var lazyloadImages;
+
+        // if ("IntersectionObserver" in window) {
+        //     lazyloadImages = document.querySelectorAll(".lazyImage");
+        //     var imageObserver = new IntersectionObserver(function(entries, observer) {
+        //         entries.forEach(function(entry) {
+        //             if (entry.isIntersecting) {
+        //                 let image = entry.target;
+        //                 let sources = image.children;
+        //                 for (let index = 0; index < sources.length; index++) {
+        //                     let srcEle = sources[index];
+        //                     if (index === sources.length - 1) {
+        //                         let screenWidth = window.screen.width;
+        //                         if (screenWidth <= 768) {
+        //                             srcEle.setAttribute('src', sources[0].dataset.srcset);
+        //                         } else if (screenWidth > 768 && screenWidth <= 1440) {
+        //                             srcEle.setAttribute('src', sources[1].dataset.srcset);
+        //                         } else if (screenWidth > 1440 && screenWidth <= 2440) {
+        //                             srcEle.setAttribute('src', sources[2].dataset.srcset);
+        //                         }
+        //                     } else {
+        //                         srcEle.setAttribute('srcset', srcEle.dataset.srcset);
+        //                     }
+        //                 }
+        //                 image.classList.remove('lazyImage');
+        //                 imageObserver.unobserve(image);
+        //             }
+        //         });
+        //     });
+
+        //     lazyloadImages.forEach(function(image) {
+        //         imageObserver.observe(image);
+        //     });
+        // } else {
+        var lazyloadThrottleTimeout;
+
+
+        function lazyload() {
+            if (lazyloadThrottleTimeout) {
+                clearTimeout(lazyloadThrottleTimeout);
+            }
+            lazyloadImages = document.getElementsByClassName("lazyImage");
+            lazyloadThrottleTimeout = setTimeout(function() {
+                var scrollTop = window.pageYOffset;
+                for (var i = 0; i < lazyloadImages.length; i++) {
+                    let pics = lazyloadImages[i];
+                    if (pics.offsetTop < (window.innerHeight + scrollTop)) {
+                        let sources = pics.children;
+                        for (let index = 0; index < sources.length; index++) {
+                            let srcEle = sources[index];
+                            if (index === sources.length - 1) {
+                                let screenWidth = window.screen.width;
+                                if (screenWidth <= 768) {
+                                    srcEle.setAttribute('src', sources[0].dataset.srcset);
+                                } else if (screenWidth > 768 && screenWidth <= 1440) {
+                                    srcEle.setAttribute('src', sources[1].dataset.srcset);
+                                } else if (screenWidth > 1440 && screenWidth <= 2440) {
+                                    srcEle.setAttribute('src', sources[2].dataset.srcset);
+                                }
+                            } else {
+                                srcEle.setAttribute('srcset', srcEle.dataset.srcset);
+                            }
+                        }
+                        // pics.classList.remove('lazyImage');
+                    }
+                }
+                // lazyloadImages.forEach(function(pics) {
+
+                // });
+                // if (lazyloadImages.length == 0) {
+                // document.removeEventListener("scroll", lazyload);
+                // window.removeEventListener("resize", lazyload);
+                // window.removeEventListener("orientationChange", lazyload);
+                // }
+            }, 20);
+        }
+
+        document.addEventListener("scroll", lazyload);
+        window.addEventListener("resize", lazyload);
+        window.addEventListener("orientationChange", lazyload);
+        // }
+    })
+    </script>
+</body>
+
+</html>
